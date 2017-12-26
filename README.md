@@ -31,7 +31,7 @@
 &emsp;&emsp;app:tbv_texts="推荐|首页|科技|热点|情感"<br> 
 &emsp;&emsp;/>
        
-1.java 代码<br>
+2.java 代码<br>
 
       tbv_one = findViewById(R.id.tbv_one);
       tbv_one.setOnTabBarCheckedChangeListener(new TabBarView.OnTabBarCheckedChangeListener() {
@@ -40,8 +40,8 @@
                 Toast.makeText(getApplicationContext(),"已选择了 " + itemText + "   位置 : " + position,Toast.LENGTH_LONG).show();
             }
       });
-      //tbv_one.setData(Arrays.asList("推荐","首页","科技","热点","情感"));//java代码设置子选项文本数据
-      //tbv_one.checkItem(0);//java代码设置默认选中子选项
+      //tbv_one.setData(Arrays.asList("推荐","首页","科技","热点","情感"));//动态设置子选项文本数据
+      //tbv_one.checkItem(0);//动态设置默认选中子选项
 
 控件属性介绍
 -------
