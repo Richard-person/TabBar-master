@@ -40,7 +40,6 @@
                 Toast.makeText(getApplicationContext(),"已选择了 " + itemText + "   位置 : " + position,Toast.LENGTH_LONG).show();
             }
       });
-      
       //tbv_one.setData(Arrays.asList("推荐","首页","科技","热点","情感"));//java代码设置子选项文本数据
       //tbv_one.checkItem(0);//java代码设置默认选中子选项
 
