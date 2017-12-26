@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="tabbar_height">35dp</dimen>
+    <dimen name="tabbar_radius">4dp</dimen>
+    <dimen name="tabbar_textSize">13sp</dimen>
+    <dimen name="content_margin">10dp</dimen>
+
+</resources>
