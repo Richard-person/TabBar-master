@@ -13,23 +13,23 @@
 1.XML<br> 
 
 <com.richard.tabbar.TabBarView<br> 
-        android:id="@+id/tbv_one"<br> 
-        android:layout_width="wrap_content"<br> 
-        android:layout_height="@dimen/tabbar_height"<br> 
-        android:layout_marginTop="@dimen/content_margin"<br> 
-        app:tbv_blank_view_color="#afafaf"<br> 
-        app:tbv_blank_view_width="0.5dp"<br> 
-        app:tbv_content_back_color="#0988a6"<br> 
-        app:tbv_default_checked_item_position="0"<br> 
-        app:tbv_item_checked_back_color="#034a58"<br> 
-        app:tbv_item_uncheck_back_color="#00000000"<br> 
-        app:tbv_padding_left_right="20dp"<br> 
-        app:tbv_radius="@dimen/tabbar_radius"<br> 
-        app:tbv_text_checked_color="#ffffff"<br> 
-        app:tbv_text_size="@dimen/tabbar_textSize"<br> 
-        app:tbv_text_uncheck_color="#ffffff"<br> 
-        app:tbv_texts="推荐|首页|科技|热点|情感"<br> 
-        />
+android:id="@+id/tbv_one"<br> 
+&emsp;&emsp;android:layout_width="wrap_content"<br> 
+&emsp;&emsp;android:layout_height="@dimen/tabbar_height"<br> 
+&emsp;&emsp;android:layout_marginTop="@dimen/content_margin"<br> 
+&emsp;&emsp;app:tbv_blank_view_color="#afafaf"<br> 
+&emsp;&emsp;app:tbv_blank_view_width="0.5dp"<br> 
+&emsp;&emsp;app:tbv_content_back_color="#0988a6"<br> 
+&emsp;&emsp;app:tbv_default_checked_item_position="0"<br> 
+&emsp;&emsp;app:tbv_item_checked_back_color="#034a58"<br> 
+&emsp;&emsp;app:tbv_item_uncheck_back_color="#00000000"<br> 
+&emsp;&emsp;app:tbv_padding_left_right="20dp"<br> 
+&emsp;&emsp;app:tbv_radius="@dimen/tabbar_radius"<br> 
+&emsp;&emsp;app:tbv_text_checked_color="#ffffff"<br> 
+&emsp;&emsp;app:tbv_text_size="@dimen/tabbar_textSize"<br> 
+&emsp;&emsp;app:tbv_text_uncheck_color="#ffffff"<br> 
+&emsp;&emsp;app:tbv_texts="推荐|首页|科技|热点|情感"<br> 
+&emsp;&emsp;/>
        
 1.java 代码<br>
 
