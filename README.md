@@ -13,7 +13,7 @@
 1.XML<br> 
 
 <com.richard.tabbar.TabBarView<br> 
-android:id="@+id/tbv_one"<br> 
+&emsp;&emsp;android:id="@+id/tbv_one"<br> 
 &emsp;&emsp;android:layout_width="wrap_content"<br> 
 &emsp;&emsp;android:layout_height="@dimen/tabbar_height"<br> 
 &emsp;&emsp;android:layout_marginTop="@dimen/content_margin"<br> 
