@@ -9,8 +9,21 @@
 
 使用方法
 -------
+1.导入<br>
+       Step 1. Add it in your root build.gradle at the end of repositories:
+	allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+       
+       Step 2. Add the dependency
+	dependencies {
+	        compile 'com.github.Richard-person:TabBar-master:v1.0'
+	}
 
-1.XML<br> 
+2.XML<br> 
 
 <com.richard.tabbar.TabBarView<br> 
 &emsp;&emsp;android:id="@+id/tbv_one"<br> 
@@ -31,7 +44,7 @@
 &emsp;&emsp;app:tbv_texts="推荐|首页|科技|热点|情感"<br> 
 &emsp;&emsp;/>
        
-2.java 代码<br>
+3.java 代码<br>
 
       tbv_one = findViewById(R.id.tbv_one);
       tbv_one.setOnTabBarCheckedChangeListener(new TabBarView.OnTabBarCheckedChangeListener() {
