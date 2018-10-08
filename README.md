@@ -5,7 +5,6 @@
 截图
 -------
 ![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/1.png)
-![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/2.png)
 
 使用方法
 -------
