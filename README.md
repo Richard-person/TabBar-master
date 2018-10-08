@@ -1,10 +1,10 @@
 # TabBar-master
-标签栏控件,支持自定义圆角弧度、选中状态和未选中状态的背景颜色和字体颜色、自定义字体大小、设置分隔线、分隔线颜色、分隔线大小、设置子选项左右内边距、
+标签栏控件,支持自定义四个圆角弧度、选中状态和未选中状态的背景颜色和字体颜色、自定义字体大小、设置分隔线、分隔线颜色、分隔线大小、设置子选项左右内边距、
 整体固定宽度的情况下可以设置子选项是否均分总宽度大小、也可以通过子选项自适应宽度等样式。
 
 截图
 -------
-![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/test.png)
+![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/test2.png)
 
 使用方法
 -------
@@ -62,7 +62,11 @@ Step 2. Add the dependency
 * tbv_text_size 子选项文本大小
 * tbv_text_uncheck_color  未选中状态下的子选项文本颜色
 * tbv_text_checked_color  选中状态下的子选项文本颜色
-* tbv_radius  圆角弧度
+* tbv_radius  同时设置四个圆角弧度
+* tbv_topLeftRadius  设置左上角圆角弧度
+* tbv_topRightRadius  设置右上角圆角弧度
+* tbv_bottomLeftRadius  设置左下角圆角弧度
+* tbv_bottomRightRadius  设置右下角圆角弧度
 * tbv_content_back_color  整体背景颜色
 * tbv_item_uncheck_back_color 未选中状态下的子选项背景颜色
 * tbv_item_checked_back_color 选中状态下的子选项背景颜色
@@ -71,3 +75,4 @@ Step 2. Add the dependency
 * tbv_width_isAverage 子选项是否均分总宽度
 * tbv_padding_left_right  子选项左右方向内部边距
 * tbv_default_checked_item_position 默认选中子选项位置
+* tbv_is_bottom_bar_style 设置选中时的状态底部是否为条状样式
