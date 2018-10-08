@@ -8,6 +8,10 @@
         <attr name="tbv_text_uncheck_color" format="color"/>
         <attr name="tbv_text_checked_color" format="color"/>
         <attr name="tbv_radius" format="dimension"/>
+        <attr name="tbv_topLeftRadius" format="dimension"/>
+        <attr name="tbv_topRightRadius" format="dimension"/>
+        <attr name="tbv_bottomLeftRadius" format="dimension"/>
+        <attr name="tbv_bottomRightRadius" format="dimension"/>
         <attr name="tbv_content_back_color" format="color"/>
         <attr name="tbv_item_uncheck_back_color" format="color"/>
         <attr name="tbv_item_checked_back_color" format="color"/>
@@ -16,6 +20,7 @@
         <attr name="tbv_width_isAverage" format="boolean"/>
         <attr name="tbv_padding_left_right" format="dimension"/>
         <attr name="tbv_default_checked_item_position" format="integer"/>
+        <attr name="tbv_is_bottom_bar_style" format="boolean"/>
     </declare-styleable>
 
 </resources>

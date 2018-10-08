@@ -1,5 +1,6 @@
 package com.richard.tabbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -9,10 +10,12 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -26,9 +29,9 @@ import java.util.List;
  * <br>Author : Richard
  * <br>Date : 2017/12/26 12:17
  * <br>Changelog:
- *   <br>Version            Date            Author              Detail
- *  <br> ----------------------------------------------------------------------
- *  <br>1.0        2017/12/26 12:17       Administrator      new file.
+ * <br>Version            Date            Author              Detail
+ * <br> ----------------------------------------------------------------------
+ * <br>1.0        2017/12/26 12:17       Administrator      new file.
  */
 public class TabBarView extends RadioGroup {
 
@@ -42,8 +45,6 @@ public class TabBarView extends RadioGroup {
     private int unCheckTextColor;
     //选中字体颜色
     private int checkedTextColor;
-    //圆角弧度
-    private float radius;
     //RadioGroup 背景颜色
     private int content_back_color;
     //item未选中背景颜色
@@ -60,6 +61,17 @@ public class TabBarView extends RadioGroup {
     private int paddingLeftRight;
     //默认选中的tabbar item 下标位置
     private int defaultCheckedItemPosition;
+    //选中状态是否为底部条样式
+    private boolean tbv_is_bottom_bar_style;
+    //圆角弧度
+    private float radius;
+    //四个边角弧度
+    private float topLeftRadius;
+    private float topRightRadius;
+    private float bottomLeftRadius;
+    private float bottomRightRadius;
+    //分页文本以|分隔多个
+    private String texts;
 
 
     public TabBarView(Context context) {
@@ -82,20 +94,21 @@ public class TabBarView extends RadioGroup {
             itemTextSize = typedArray.getDimension(R.styleable.TabBarView_tbv_text_size, this.sp2px(getContext(), 14));
             unCheckTextColor = typedArray.getColor(R.styleable.TabBarView_tbv_text_uncheck_color, Color.parseColor("#9accbd"));
             checkedTextColor = typedArray.getColor(R.styleable.TabBarView_tbv_text_checked_color, Color.parseColor("#0d6fb7"));
-            radius = typedArray.getDimension(R.styleable.TabBarView_tbv_radius, this.dp2px(getContext(), 4));
-            content_back_color = typedArray.getColor(R.styleable.TabBarView_tbv_content_back_color, Color.parseColor("#2e000000"));
+            radius = typedArray.getDimension(R.styleable.TabBarView_tbv_radius, 0F);
+            topLeftRadius = typedArray.getDimension(R.styleable.TabBarView_tbv_topLeftRadius, 0F);
+            topRightRadius = typedArray.getDimension(R.styleable.TabBarView_tbv_topRightRadius, 0F);
+            bottomLeftRadius = typedArray.getDimension(R.styleable.TabBarView_tbv_bottomLeftRadius, 0F);
+            bottomRightRadius = typedArray.getDimension(R.styleable.TabBarView_tbv_bottomRightRadius, 0F);
+            content_back_color = typedArray.getColor(R.styleable.TabBarView_tbv_content_back_color, Color.parseColor("#00000000"));
             itemUnCheckBackColor = typedArray.getColor(R.styleable.TabBarView_tbv_item_uncheck_back_color, Color.parseColor("#00000000"));
             itemCheckedBackColor = typedArray.getColor(R.styleable.TabBarView_tbv_item_checked_back_color, Color.parseColor("#ffffff"));
-            blankViewWidth = (int) typedArray.getDimension(R.styleable.TabBarView_tbv_blank_view_width, this.dp2px(getContext(), 0.4f));
+            blankViewWidth = (int) typedArray.getDimension(R.styleable.TabBarView_tbv_blank_view_width, this.dp2px(getContext(), 0.4F));
             blankViewColor = typedArray.getColor(R.styleable.TabBarView_tbv_blank_view_color, Color.parseColor("#9accbd"));
             isAverage = typedArray.getBoolean(R.styleable.TabBarView_tbv_width_isAverage, false);
             paddingLeftRight = (int) typedArray.getDimension(R.styleable.TabBarView_tbv_padding_left_right, this.dp2px(getContext(), 18));
             defaultCheckedItemPosition = typedArray.getInteger(R.styleable.TabBarView_tbv_default_checked_item_position, 0);
-
-            String texts = typedArray.getString(R.styleable.TabBarView_tbv_texts);
-            if (!TextUtils.isEmpty(texts)) {
-                this.setData(Arrays.asList(texts.split("\\|")));
-            }
+            tbv_is_bottom_bar_style = typedArray.getBoolean(R.styleable.TabBarView_tbv_is_bottom_bar_style, false);
+            texts = typedArray.getString(R.styleable.TabBarView_tbv_texts);
 
             typedArray.recycle();
             typedArray = null;
@@ -114,11 +127,22 @@ public class TabBarView extends RadioGroup {
             defaultCheckedItemPosition = 0;
         }
 
-        this.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (mOnTabBarCheckedChangeListener != null) {
-                    RadioButton radioButton = findViewById(checkedId);
+        if (topLeftRadius <= 0 && topRightRadius <= 0 && bottomLeftRadius <= 0 && bottomRightRadius <= 0) {
+            topLeftRadius = radius;
+            topRightRadius = radius;
+            bottomLeftRadius = radius;
+            bottomRightRadius = radius;
+        }
+
+        //设置分页文本数据
+        if (!TextUtils.isEmpty(texts)) {
+            this.setData(Arrays.asList(texts.split("\\|")));
+        }
+
+        this.setOnCheckedChangeListener((group, checkedId) -> {
+            if (mOnTabBarCheckedChangeListener != null) {
+                RadioButton radioButton = findViewById(checkedId);
+                if (radioButton != null) {
                     mOnTabBarCheckedChangeListener.checked(radioButton.getText().toString(), (Integer) radioButton.getTag());
                 }
             }
@@ -126,7 +150,7 @@ public class TabBarView extends RadioGroup {
 
 
         //初始化默认选中位置
-        if(null != this.datas && this.datas.size() > defaultCheckedItemPosition){
+        if (null != this.datas && this.datas.size() > defaultCheckedItemPosition) {
             this.checkItem(defaultCheckedItemPosition);
         }
     }
@@ -138,7 +162,13 @@ public class TabBarView extends RadioGroup {
         this.datas.clear();
         this.removeAllViews();
         this.datas.addAll(datas);
-        this.setBackgroundDrawable(generatorGradientDrawable(content_back_color, radius));
+        this.setBackgroundDrawable(generatorGradientDrawable(
+                content_back_color
+                , topLeftRadius
+                , topRightRadius
+                , bottomLeftRadius
+                , bottomRightRadius
+        ));
 
         int size = this.datas.size();
         for (int i = 0; i < size; i++) {
@@ -174,8 +204,8 @@ public class TabBarView extends RadioGroup {
      * 获取已选中的RadiuButton位置
      */
     public int getCheckedItemPosition() {
-        Object tag = findViewById(getCheckedRadioButtonId()).getTag();
-        return tag == null ? -1 : (int) tag;
+        View view = findViewById(getCheckedRadioButtonId());
+        return view == null ? -1 : (int) view.getTag();
     }
 
 
@@ -185,6 +215,7 @@ public class TabBarView extends RadioGroup {
      * @param text
      * @return
      */
+    @SuppressLint("ClickableViewAccessibility")
     private RadioButton generatorRadioButton(String text, Object tag, boolean isAverage, int paddingLeftRight) {
         RadioButton radioButton = new RadioButton(getContext());
 
@@ -221,7 +252,39 @@ public class TabBarView extends RadioGroup {
         radioButton.setText(text);
         radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemTextSize);
         radioButton.setTextColor(generatorTextColorDrawable(unCheckTextColor, checkedTextColor));
-        radioButton.setBackgroundDrawable(generatorItemSelector(itemUnCheckBackColor, itemCheckedBackColor, radius));
+
+        if (tbv_is_bottom_bar_style) {
+            radioButton.setCompoundDrawablesWithIntrinsicBounds(
+                    null
+                    , null
+                    , null
+                    , generatorItemSelector(
+                            itemUnCheckBackColor
+                            , itemCheckedBackColor
+                            , topLeftRadius
+                            , topRightRadius
+                            , bottomLeftRadius
+                            , bottomRightRadius
+                    ));
+        } else {
+            radioButton.setBackgroundDrawable(
+                    generatorItemSelector(
+                            itemUnCheckBackColor
+                            , itemCheckedBackColor
+                            , topLeftRadius
+                            , topRightRadius
+                            , bottomLeftRadius
+                            , bottomRightRadius
+                    ));
+        }
+
+        radioButton.setOnTouchListener((view, motionEvent) -> {
+            RadioButton radioButton1 = findViewWithTag(view.getTag());
+            if (TextUtils.isEmpty(radioButton1.getText())) {
+                return true;
+            }
+            return false;
+        });
 
         return radioButton;
     }
@@ -247,14 +310,35 @@ public class TabBarView extends RadioGroup {
     /**
      * 生成未选中和选中后的状态的Drawable
      *
-     * @param unCheckColor 未选中背景颜色
-     * @param checkedColor 未选中背景颜色
-     * @param radius       圆角弧度
+     * @param unCheckColor      未选中背景颜色
+     * @param checkedColor      未选中背景颜色
+     * @param topLeftRadius     左上角弧度
+     * @param topRightRadius    右上角弧度
+     * @param bottomLeftRadius  左下角弧度
+     * @param bottomRightRadius 右下角弧度
      */
-    private StateListDrawable generatorItemSelector(int unCheckColor, int checkedColor, float radius) {
+    private StateListDrawable generatorItemSelector(int unCheckColor, int checkedColor, float topLeftRadius
+            , float topRightRadius, float bottomLeftRadius, float bottomRightRadius) {
         StateListDrawable stateListDrawable = new StateListDrawable();
-        stateListDrawable.addState(new int[]{-android.R.attr.state_checked}, generatorGradientDrawable(unCheckColor, radius));
-        stateListDrawable.addState(new int[]{android.R.attr.state_checked}, generatorGradientDrawable(checkedColor, radius));
+        stateListDrawable.addState(
+                new int[]{-android.R.attr.state_checked}
+                , generatorGradientDrawable(
+                        unCheckColor
+                        , topLeftRadius
+                        , topRightRadius
+                        , bottomLeftRadius
+                        , bottomRightRadius
+                ));
+
+        stateListDrawable.addState(
+                new int[]{android.R.attr.state_checked}
+                , generatorGradientDrawable(
+                        checkedColor
+                        , topLeftRadius
+                        , topRightRadius
+                        , bottomLeftRadius
+                        , bottomRightRadius
+                ));
 
         return stateListDrawable;
     }
@@ -263,17 +347,34 @@ public class TabBarView extends RadioGroup {
     /**
      * 生成单个Drawable
      *
-     * @param color  背景颜色
-     * @param radius 圆角弧度
+     * @param color             背景颜色
+     * @param topLeftRadius     左上角弧度
+     * @param topRightRadius    右上角弧度
+     * @param bottomLeftRadius  左下角弧度
+     * @param bottomRightRadius 右下角弧度
      */
-    private GradientDrawable generatorGradientDrawable(int color, float radius) {
+    private GradientDrawable generatorGradientDrawable(int color, float topLeftRadius, float topRightRadius
+            , float bottomLeftRadius, float bottomRightRadius) {
         //1、2两个参数表示左上角，3、4表示右上角，5、6表示右下角，7、8表示左下角
         //topLeftRadius, topLeftRadius, topRightRadius, topRightRadius, bottomRightRadius, bottomRightRadius, bottomLeftRadius, bottomLeftRadius
-        float[] radii = new float[]{radius, radius, radius, radius, radius, radius, radius, radius};
+        float[] radii = new float[]{
+                topLeftRadius
+                , topLeftRadius
+                , topRightRadius
+                , topRightRadius
+                , bottomRightRadius
+                , bottomRightRadius
+                , bottomLeftRadius
+                , bottomLeftRadius
+        };
 
         GradientDrawable gradientDrawable = new GradientDrawable();
         gradientDrawable.setCornerRadii(radii);
         gradientDrawable.setColor(color);
+
+        if (tbv_is_bottom_bar_style) {
+            gradientDrawable.setSize(this.getScreenWidth(), this.dp2px(getContext(), 2));
+        }
 
         return gradientDrawable;
     }
@@ -321,5 +422,15 @@ public class TabBarView extends RadioGroup {
      */
     private int dp2px(Context context, float dpVal) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpVal, context.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * 获得屏幕高度
+     */
+    private int getScreenWidth() {
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 }
