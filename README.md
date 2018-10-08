@@ -20,7 +20,7 @@
 Step 2. Add the dependency
 
 	dependencies {
-	        compile 'com.github.Richard-person:TabBar-master:v1.0'
+	        implementation 'com.github.Richard-person:TabBar-master:V1.1'
 	}
 
 2.XML<br> 
