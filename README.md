@@ -4,7 +4,7 @@
 
 截图
 -------
-![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/test2.png)
+![](https://github.com/Richard-person/TabBar-master/blob/master/screenshot/example1.png)
 
 使用方法
 -------
@@ -20,7 +20,7 @@
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.Richard-person:TabBar-master:V1.1'
+	        compile 'com.github.Richard-person:TabBar-master:v1.0'
 	}
 
 2.XML<br> 
