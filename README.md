@@ -76,3 +76,5 @@ Step 2. Add the dependency
 * tbv_padding_left_right  子选项左右方向内部边距
 * tbv_default_checked_item_position 默认选中子选项位置
 * tbv_is_bottom_bar_style 设置选中时的状态底部是否为条状样式
+* tbv_whenBottomBarStyleHeight 设置当tbv_is_bottom_bar_style=true时的bottomBar的高度
+* tbv_isApplyContentRadius 是否将弧度值应用到总TabBarView
