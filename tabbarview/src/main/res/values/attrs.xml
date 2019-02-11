@@ -21,6 +21,8 @@
         <attr name="tbv_padding_left_right" format="dimension"/>
         <attr name="tbv_default_checked_item_position" format="integer"/>
         <attr name="tbv_is_bottom_bar_style" format="boolean"/>
+        <attr name="tbv_whenBottomBarStyleHeight" format="dimension"/>
+        <attr name="tbv_isApplyContentRadius" format="boolean"/>
     </declare-styleable>
 
 </resources>
