@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -23,6 +24,14 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+}
+
+publish {
+    userOrg = 'Richard'
+    groupId = 'com.richard.android'
+    artifactId = 'tabBarView'
+    publishVersion = 'v1.2'
+    desc = 'tabBarView'
 }
 
 dependencies {
